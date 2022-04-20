@@ -64,11 +64,11 @@ Car.prototype.fill = function(gallons) {
   now we just set the tank equal to the 0 plus our new argument. Now when we log our Car initially, tank will still be set 
   to zero, but if we invoke our fill method here then we will see in the tank key, the amount of gallons we filled the car with*/
 }
-Car.prototype.drive = function(dist) {
+Car.prototype.drive = function(distance) {
   const driveableMiles = this.tank * this.milesPerGallon;
-  if (dist <= driveableMiles) {
-    this.odometer = this.odometer + dist;
-    this.tank = this.tank - (dist/ this.milesPerGallon);
+  if (distance <= driveableMiles) {
+    this.odometer = this.odometer + distance;
+    this.tank = this.tank - (distance/ this.milesPerGallon);
   } else {
     this.odometer = this.odometer + driveableMiles;
     this.tank = 0;
@@ -78,7 +78,7 @@ Car.prototype.drive = function(dist) {
 
 const car1 = new Car('Ford Fusion', 32);
 car1.fill(15);
-car1.drive(60);
+car1.drive(485);
 console.log(car1);
 
 /*
