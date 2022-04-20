@@ -35,6 +35,7 @@ function Person(name, age) {
  Person.prototype.toString = function() {
    return `${this.name}, ${this.age}`;
  }
+
 /*
   TASK 2
     - Write a Car constructor that initializes `model` and `milesPerGallon` from arguments.
@@ -51,10 +52,34 @@ function Person(name, age) {
         + The `drive` method should return a string "I ran out of fuel at x miles!" x being `odometer`.
 */
 
-function Car() {
-
+function Car(model, milesPerGallon) {
+  this.model = model;
+  this.milesPerGallon = milesPerGallon;
+  this.tank = 0;
+  this.odometer = 0;
 }
 
+Car.prototype.fill = function(gallons) {
+  this.tank = this.tank + gallons;/*rememeber, what are we filling? it's the tank, so the tank is set to zero already 
+  now we just set the tank equal to the 0 plus our new argument. Now when we log our Car initially, tank will still be set 
+  to zero, but if we invoke our fill method here then we will see in the tank key, the amount of gallons we filled the car with*/
+}
+Car.prototype.drive = function(dist) {
+  const driveableMiles = this.tank * this.milesPerGallon;
+  if (dist <= driveableMiles) {
+    this.odometer = this.odometer + dist;
+    this.tank = this.tank - (dist/ this.milesPerGallon);
+  } else {
+    this.odometer = this.odometer + driveableMiles;
+    this.tank = 0;
+    return `I ran out of fuel at ${this.odometer} miles`;
+  }
+}
+
+const car1 = new Car('Ford Fusion', 32);
+car1.fill(15);
+car1.drive(60);
+console.log(car1);
 
 /*
   TASK 3
@@ -64,18 +89,28 @@ function Car() {
         + Should return a string "Playing with x", x being the favorite toy.
 */
 
-function Baby() {
-
+function Baby(name, age, favoriteToy) {
+  Person.call(this, name, age, favoriteToy);
+  this.favoriteToy = favoriteToy;
 }
 
+Baby.prototype = Object.create(Person.prototype);
+
+Baby.prototype.play = function() {
+  return `Playing with ${this.favoriteToy}, ${this.favoriteToy} being the favorite toy.`
+}
 
 /* 
   TASK 4
   In your own words explain the four principles for the "this" keyword below:
-  1. 
-  2. 
-  3. 
-  4. 
+  1. WINDOW BINDING: this happens if you use 'this' without proper context for it then it will return the window, 
+  the global object in node, or undefined in strict mode.
+  2. IMPLICIT BINDING: When a function on an object is invoked the 'this' keyword refers to whatever comes before the key.
+  We are not directing it to a certain path, it follows its native path and finds the object its supposed to refer to;
+  3. EXPLICIT BINDING: With this type of binding we direct the 'this' keyword to follow a certain path by invoking functions
+  that we want it to refer to. 
+  4. NEW BINDING: Here the 'this' keyword refers to the newly created object that it is pointed towards to get its data from
+  rather than the old object.
 */
 
 ///////// END OF CHALLENGE /////////
